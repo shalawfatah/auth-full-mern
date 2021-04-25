@@ -8,7 +8,7 @@ function CustomerList({ customers }) {
       <ul>{customers.map((customer)=> {
           return (
               <>
-              <h3>{customer.name}</h3>
+              <h3>Name: {customer.name}</h3>
               </>
           )
       })}</ul>
