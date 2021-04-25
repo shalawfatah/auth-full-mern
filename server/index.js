@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import { dbconnect } from './config/database.js'
 dotenv.config()
 import userRoutes from './routes/user.js'
+import customerRoutes from './routes/customer.js'
 const app = express()
 
 app.use(express.json())
@@ -14,6 +15,7 @@ app.get('/', (req, res)=> {
 })
 
 app.use('/auth', userRoutes)
+app.use('/customer', customerRoutes)
 
 dbconnect()
 
