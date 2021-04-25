@@ -9,7 +9,10 @@ const app = express()
 import cookieParser from 'cookie-parser'
 
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    origin: [process.env.CORS_ALLOWED],
+    credentials: true
+}))
 app.use(cookieParser())
 
 app.get('/', (req, res)=> {
