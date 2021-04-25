@@ -4,7 +4,8 @@ import Customer from '../models/Customer.js'
 
 export const getAllCustomers = async (req, res) => {
     try {
-        
+        const allCustomers = await Customer.find()
+        res.json(allCustomers)
     } catch (error) {
         console.log(error)
     }

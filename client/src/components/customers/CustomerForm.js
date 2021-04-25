@@ -18,6 +18,7 @@ function CustomerForm({ getCustomers }) {
         customerData
       );
       getCustomers();
+      setCustomerName('')
     } catch (err) {
       console.error(err);
     }

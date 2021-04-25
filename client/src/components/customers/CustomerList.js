@@ -1,15 +1,17 @@
 import React from "react";
 
 function CustomerList({ customers }) {
-  function renderCustomers() {
-    return customers.map((customer, i) => {
-      return <li key={i}>{customer.name}</li>;
-    });
-  }
+
 
   return (
     <div>
-      <ul>{renderCustomers()}</ul>
+      <ul>{customers.map((customer)=> {
+          return (
+              <>
+              <h3>{customer.name}</h3>
+              </>
+          )
+      })}</ul>
     </div>
   );
 }
