@@ -64,3 +64,29 @@ export const updateUser = async (req, res) => {
         console.log(error)
     }
 }
+
+export const loginUser = async (req, res) => {
+    const {email, password} = req.body
+    try {
+        // Validations
+        if(!email || !password) return res.status(400).json({message: 'Please fill the required fields'})
+
+        // See if user exists 
+        const existingUser = await User.findOne({email})
+        if(!existingUser) return res.status(400).json({message: 'Wrong credentials'})
+
+        // See if the password belongs to the user
+        const correctPas = await bcrypt.compare(password, existingUser.password)
+        if(!correctPas) return res.status(400).json({message: 'Wrong credentials'})
+
+
+        // Log In
+        const token = jwt.sign({user: existingUser._id}, process.env.JWT_SECRET)
+        res.cookie("token", token, {
+            httpOnly:true
+        }).send()
+        
+    } catch (error) {
+        console.log(error)
+    }
+}
