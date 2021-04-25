@@ -7,15 +7,6 @@ export const getAllUsers = async (req, res) => {
 
 }
 
-export const getOneUser = async (req, res) => {
-    console.log('All Users')
-    try {
-        
-    } catch (error) {
-        console.log(error)
-    }
-}
-
 export const createUser = async (req, res) => {
     try {
         // Verification
@@ -89,4 +80,11 @@ export const loginUser = async (req, res) => {
     } catch (error) {
         console.log(error)
     }
+}
+
+export const logoutUser = (req, res) => {
+    res.cookie("token", "", {
+        httpOnly: true,
+        expires: new Date(0)
+    }).send()
 }
