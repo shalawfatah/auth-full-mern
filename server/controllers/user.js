@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 import User from '../models/User.js'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 export const getAllUsers = async (req, res) => {
 
@@ -24,8 +25,8 @@ export const createUser = async (req, res) => {
         if(password !== passwordVerify) return res.status(400).json({message: 'Password must match'})
 
         // See if the user has already registered
-        const existingUser = await User.find({email})
-        if(!existingUser) return res.status(400).json({message: 'User has already registered'})
+        const existingUser = await User.findOne({email})
+        if(existingUser) return res.status(400).json({message: 'User has already registered'})
 
         // hash the password
         const salt = await bcrypt.genSalt(8)
@@ -34,9 +35,12 @@ export const createUser = async (req, res) => {
         // Create new user & save it
         const newUser = await new User({email, password: hashedPass, passwordVerify:hashedPass})
         const savedUser = await newUser.save()
-        res.send(savedUser)
         
         // Log In
+        const token = jwt.sign({user: savedUser._id}, process.env.JWT_SECRET)
+        res.cookie("token", token, {
+            httpOnly:true
+        }).send()
 
     } catch (error) {
         console.log(error)
