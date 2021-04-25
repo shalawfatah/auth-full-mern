@@ -1,17 +1,20 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import axios from 'axios'
+import AuthContext from '../../context/AuthContext'
 
 const Register = () => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [passwordVerify, setPasswordVerify] = useState('')
+    const {getLoggedIn} = useContext(AuthContext)
 
     const register = async (e) => {
         e.preventDefault()
         try {
             const objectData = {email, password, passwordVerify}
             await axios.post('http://localhost:1996/auth', objectData)
+            getLoggedIn()
         } catch (error) {
             console.log(error)
         }

@@ -1,10 +1,28 @@
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import CustomerForm from './CustomerForm'
+import CustomerList from './CustomerList'
+import axios from 'axios'
 
 const Customers = () => {
+    const [customers, setCustomers] = useState([]);
+
+    async function getCustomers() {
+      // const customersRes = await axios.get("http://localhost:5000/customer/");
+      const customersRes = await axios.get(
+        "http://localhost:1996/customer/"
+      );
+      setCustomers(customersRes.data);
+    }
+  
+    useEffect(() => {
+      getCustomers();
+    }, []);
     return (
         <div>
             <h2>Customers</h2>
+            <CustomerForm  getCustomers={getCustomers}  />
+            <CustomerList  customers={customers}  />
         </div>
     )
 }
